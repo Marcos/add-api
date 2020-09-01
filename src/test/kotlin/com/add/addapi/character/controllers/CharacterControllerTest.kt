@@ -16,6 +16,8 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest
@@ -29,7 +31,7 @@ internal class CharacterControllerTest {
     private lateinit var mapper: ObjectMapper
 
     @Test
-    fun createCharacter() {
+    fun `create character with valid data`() {
         val newCharacterRequest = NewCharacterRequest(
                 nickname = "Nickname${System.currentTimeMillis()}",
                 name = "Xeresa",
@@ -40,23 +42,21 @@ internal class CharacterControllerTest {
                 spells = listOf("spell"),
                 equipments = listOf("equipment")
         )
-        val createdCharacterResult = mockMvc.perform(
+        val response = mockMvc.perform(
                 MockMvcRequestBuilders
                         .post("/characters")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jacksonObjectMapper().writeValueAsString(newCharacterRequest))
-        ).andReturn()
-        assertThat(createdCharacterResult.response.status).isEqualTo(HttpStatus.CREATED.value())
+        ).andExpect(status().isCreated)
+                .andReturn().response
 
         val createdCharacterResponse = mapper.readValue<NewCreatedCharacterResponse>(
-                createdCharacterResult.response.contentAsString
+                response.contentAsString
         )
 
-        val getCreatedCharacterResult = mockMvc.perform(
-                MockMvcRequestBuilders
-                        .get(createdCharacterResponse.url)
-        ).andReturn()
-        assertThat(getCreatedCharacterResult.response.status).isEqualTo(HttpStatus.OK.value())
+        mockMvc.perform(
+                MockMvcRequestBuilders.get(createdCharacterResponse.url)
+        ).andExpect(status().isOk)
     }
 
 }
