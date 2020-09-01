@@ -86,9 +86,9 @@ internal class CharacterServiceTest {
     fun `createCharater when age is not valid`() {
         val id = UUID.randomUUID().toString()
         val newCharacterRequest = NewCharacterRequest(
-                nickname = "Nickname",
+                nickname = "",
                 name = "Xeresa",
-                age = -10,
+                age = 38,
                 mainClass = "main",
                 subClass = "sub",
                 race = "human",
