@@ -6,12 +6,6 @@ version: 2.1
 
 orbs:
   heroku: circleci/heroku@0.0.10
-
-workflows:
-  build_and_deploy:
-    jobs:
-      - build
-      - heroku/deploy-via-git
 jobs:
   build:
     docker:
@@ -49,3 +43,4 @@ jobs:
 
       # run tests!
       - run: gradle test
+      - deploy: heroku/deploy-via-git
