@@ -43,4 +43,4 @@ jobs:
 
       # run tests!
       - run: gradle test
-      - deploy: heroku/deploy-via-git
+      - run: heroku/deploy-via-git
