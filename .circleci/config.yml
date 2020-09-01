@@ -45,9 +45,9 @@ jobs:
       - run: gradle test
 
 workflows:
-  build_and_deploy:
+  heroku_deploy:
     jobs:
       - build
-      - heroku/deploy-via-git
-        requires:
-          - build
+      - heroku/deploy-via-git :
+          requires:
+            - build
