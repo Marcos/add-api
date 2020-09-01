@@ -43,4 +43,12 @@ jobs:
 
       # run tests!
       - run: gradle test
-      - run: heroku/deploy-via-git
+
+workflows:
+  build_and_deploy:
+    jobs:
+      - build
+      - heroku/deploy-via-git
+        requires:
+          - build
+          
