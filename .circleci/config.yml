@@ -45,9 +45,12 @@ jobs:
       - run: gradle test
 
 workflows:
-  heroku_deploy:
+  build_and_delpoy:
     jobs:
       - build
       - heroku/deploy-via-git :
           requires:
             - build
+          filters:
+            branches:
+              only: master
