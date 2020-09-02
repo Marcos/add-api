@@ -1,18 +1,21 @@
 package com.add.addapi.character.services
 
-import com.add.addapi.exceptions.CharacterNotFoundException
+import com.add.addapi.character.exceptions.CharacterNotFoundException
 import com.add.addapi.character.model.Character
 import com.add.addapi.character.requests.NewCharacterRequest
 import com.add.addapi.character.repositories.CharacterRepository
 import com.add.addapi.character.responses.CharacterResponse
-import com.add.addapi.exceptions.InvalidAgeException
-import com.add.addapi.exceptions.RequiredFieldException
+import com.add.addapi.dnd5.services.Dnd5ListService
+import com.add.addapi.character.exceptions.InvalidAgeException
+import com.add.addapi.character.exceptions.RequiredFieldException
+import com.add.addapi.enums.Characteristics
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
 class CharacterService(
-        val characterRepository: CharacterRepository
+        val characterRepository: CharacterRepository,
+        val dnd5ListService: Dnd5ListService
 ) {
 
     fun save(newCharacterRequest: NewCharacterRequest): String {
@@ -22,10 +25,10 @@ class CharacterService(
                 nickname = newCharacterRequest.nickname,
                 name = newCharacterRequest.name,
                 age = newCharacterRequest.age,
-                equipments = getCharacteristc(newCharacterRequest.equipments),
-                mainClass = getCharacteristc(newCharacterRequest.mainClass),
-                subClass = getCharacteristc(newCharacterRequest.subClass),
-                race = getCharacteristc(newCharacterRequest.race),
+                race = dnd5ListService.getCharacteristic(newCharacterRequest.race, Characteristics.RACE),
+                mainClass = dnd5ListService.getCharacteristic(newCharacterRequest.mainClass, Characteristics.MAIN_CLASS),
+                subClass = dnd5ListService.getCharacteristic(newCharacterRequest.subClass, Characteristics.SUBCLASS),
+                equipment = getCharacteristc(newCharacterRequest.equipments),
                 spells = getCharacteristc(newCharacterRequest.spells)
         ))
         return savedCharacter.id
@@ -43,12 +46,8 @@ class CharacterService(
             throw RequiredFieldException()
     }
 
-    private fun getCharacteristc(items: List<String>): List<Character.CharacterData> {
-        return items.map { Character.CharacterData(it, it) }
-    }
-
-    private fun getCharacteristc(item: String): Character.CharacterData {
-        return Character.CharacterData(item, item)
+    private fun getCharacteristc(items: List<String>): List<Character.Characteristic> {
+        return items.map { Character.Characteristic(it, it) }
     }
 
     fun get(id: String): CharacterResponse {

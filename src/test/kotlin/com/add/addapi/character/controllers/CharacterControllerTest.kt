@@ -36,9 +36,9 @@ internal class CharacterControllerTest {
                 nickname = "Nickname${System.currentTimeMillis()}",
                 name = "Xeresa",
                 age = 38,
-                mainClass = "main",
-                subClass = "sub",
-                race = "human",
+                race = "elf",
+                mainClass = "ranger",
+                subClass = "hunter",
                 spells = listOf("spell"),
                 equipments = listOf("equipment")
         )

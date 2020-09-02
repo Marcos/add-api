@@ -3,8 +3,9 @@ package com.add.addapi.character.services
 import com.add.addapi.character.model.Character
 import com.add.addapi.character.repositories.CharacterRepository
 import com.add.addapi.character.requests.NewCharacterRequest
-import com.add.addapi.exceptions.InvalidAgeException
-import com.add.addapi.exceptions.RequiredFieldException
+import com.add.addapi.character.exceptions.InvalidAgeException
+import com.add.addapi.character.exceptions.RequiredFieldException
+import com.add.addapi.dnd5.services.Dnd5ListService
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -21,6 +22,9 @@ internal class CharacterServiceTest {
 
     @MockK(relaxed = true)
     private lateinit var characterRepository: CharacterRepository
+
+    @MockK(relaxed = true)
+    private lateinit var dnd5ListService: Dnd5ListService
 
     @InjectMockKs
     private lateinit var characterService: CharacterService
@@ -46,11 +50,11 @@ internal class CharacterServiceTest {
                 nickname = "Nickname",
                 name = "Xeresa",
                 age = 38,
-                mainClass = Character.CharacterData("main", "main"),
-                subClass = Character.CharacterData("sub", "sub"),
-                race = Character.CharacterData("human", "human"),
-                spells = listOf(Character.CharacterData("spell", "spell")),
-                equipments = listOf(Character.CharacterData("equipment", "equipment"))
+                mainClass = Character.Characteristic("main", "main"),
+                subClass = Character.Characteristic("sub", "sub"),
+                race = Character.Characteristic("human", "human"),
+                spells = listOf(Character.Characteristic("spell", "spell")),
+                equipment = listOf(Character.Characteristic("equipment", "equipment"))
         )
         every {
             characterRepository.save(any<Character>())
