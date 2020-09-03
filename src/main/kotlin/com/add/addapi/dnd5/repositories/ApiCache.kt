@@ -1,5 +1,6 @@
-package com.add.addapi.dnd5.api
+package com.add.addapi.dnd5.repositories
 
+import com.add.addapi.dnd5.api.ApiResource
 import com.github.benmanes.caffeine.cache.Cache
 import com.github.benmanes.caffeine.cache.Caffeine
 import java.util.concurrent.TimeUnit

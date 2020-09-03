@@ -1,4 +1,4 @@
-package com.add.addapi.character.controllers
+package com.add.addapi.it.character
 
 import com.add.addapi.character.requests.NewCharacterRequest
 import com.add.addapi.character.responses.NewCreatedCharacterResponse
@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @ExtendWith(SpringExtension::class)
 @SpringBootTest
 @AutoConfigureMockMvc
-internal class CharacterControllerTest {
+internal class CharacterItTest {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
@@ -57,6 +57,27 @@ internal class CharacterControllerTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.get(createdCharacterResponse.url)
         ).andExpect(status().isOk)
+    }
+
+    @Test
+    fun `create character with invalid resource`() {
+        val newCharacterRequest = NewCharacterRequest(
+                nickname = "Nickname${System.currentTimeMillis()}",
+                name = "Xeresa",
+                age = 38,
+                race = "invalid",
+                mainClass = "bard",
+                subClass = "lore",
+                equipments = listOf("amulet"),
+                spells = listOf("acid-arrow")
+        )
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .post("/characters")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jacksonObjectMapper().writeValueAsString(newCharacterRequest))
+        ).andExpect(status().isBadRequest)
+                .andReturn().response
     }
 
 }

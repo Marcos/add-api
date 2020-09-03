@@ -50,7 +50,7 @@ internal class CharacterServiceTest {
     fun setUp() = MockKAnnotations.init(this)
 
     @Test
-    fun `createCharater when has valid data`() {
+    fun `create character when has valid data`() {
         val newCharacterRequest = createNewCharacterRequest()
         val characterDocumentId = UUID.randomUUID().toString()
         val savedCharacter = createCharacter(characterDocumentId)
@@ -99,7 +99,7 @@ internal class CharacterServiceTest {
     }
 
     @Test
-    fun `createCharater when required fields are empty throws exception`() {
+    fun `create character when required fields are empty throws exception`() {
         val newCharacterRequest = NewCharacterRequest(
                 nickname = "",
                 name = "",
@@ -117,8 +117,7 @@ internal class CharacterServiceTest {
     }
 
     @Test
-    fun `createCharater when age is not valid`() {
-        val id = UUID.randomUUID().toString()
+    fun `create character when age is not valid`() {
         val newCharacterRequest = NewCharacterRequest(
                 nickname = "Nickname",
                 name = "Xeresa",
