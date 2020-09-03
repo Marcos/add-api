@@ -5,12 +5,17 @@ import com.add.addapi.character.repositories.CharacterRepository
 import com.add.addapi.character.requests.NewCharacterRequest
 import com.add.addapi.character.exceptions.InvalidAgeException
 import com.add.addapi.character.exceptions.RequiredFieldException
-import com.add.addapi.dnd5.services.Dnd5ListService
+import com.add.addapi.dnd5.equipment.EquipmentService
+import com.add.addapi.dnd5.mainclass.MainClassService
+import com.add.addapi.dnd5.race.RaceService
+import com.add.addapi.dnd5.spell.SpellService
+import com.add.addapi.dnd5.subclass.SubClassService
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -24,7 +29,19 @@ internal class CharacterServiceTest {
     private lateinit var characterRepository: CharacterRepository
 
     @MockK(relaxed = true)
-    private lateinit var dnd5ListService: Dnd5ListService
+    private lateinit var raceService: RaceService
+
+    @MockK(relaxed = true)
+    private lateinit var mainClassService: MainClassService
+
+    @MockK(relaxed = true)
+    private lateinit var subClassService: SubClassService
+
+    @MockK(relaxed = true)
+    private lateinit var equipmentService: EquipmentService
+
+    @MockK(relaxed = true)
+    private lateinit var spellService: SpellService
 
     @InjectMockKs
     private lateinit var characterService: CharacterService
@@ -34,8 +51,28 @@ internal class CharacterServiceTest {
 
     @Test
     fun `createCharater when has valid data`() {
-        val id = UUID.randomUUID().toString()
-        val newCharacterRequest = NewCharacterRequest(
+        val newCharacterRequest = createNewCharacterRequest()
+        val characterDocumentId = UUID.randomUUID().toString()
+        val savedCharacter = createCharacter(characterDocumentId)
+        every {
+            characterRepository.save(any<Character>())
+        } returns savedCharacter
+
+        val savedId = characterService.create(newCharacterRequest)
+
+        assertThat(savedId).isEqualTo(characterDocumentId)
+        verify(exactly = 1) {
+            raceService.getByIndex(newCharacterRequest.race)
+            mainClassService.getByIndex(newCharacterRequest.mainClass)
+            subClassService.getByIndex(newCharacterRequest.subClass, any())
+            equipmentService.getByIndexes(newCharacterRequest.equipments)
+            spellService.getByIndexes(newCharacterRequest.spells, any(), any())
+            characterRepository.save(any<Character>())
+        }
+    }
+
+    private fun createNewCharacterRequest(): NewCharacterRequest {
+        return NewCharacterRequest(
                 nickname = "Nickname",
                 name = "Xeresa",
                 age = 38,
@@ -45,31 +82,24 @@ internal class CharacterServiceTest {
                 spells = listOf("spell"),
                 equipments = listOf("equipment")
         )
-        val characterDocument = Character(
-                id = id,
+    }
+
+    private fun createCharacter(characterDocumentId: String): Character {
+        return Character(
+                id = characterDocumentId,
                 nickname = "Nickname",
                 name = "Xeresa",
                 age = 38,
-                mainClass = Character.Characteristic("main", "main"),
-                subClass = Character.Characteristic("sub", "sub"),
-                race = Character.Characteristic("human", "human"),
-                spells = listOf(Character.Characteristic("spell", "spell")),
-                equipment = listOf(Character.Characteristic("equipment", "equipment"))
+                mainClass = Character.Characteristic("main", "main", "main"),
+                subClass = Character.Characteristic("sub", "sub", "sub"),
+                race = Character.Characteristic("human", "human", "human"),
+                spells = listOf(Character.Characteristic("spell", "spell", "spell")),
+                equipment = listOf(Character.Characteristic("equipment", "equipment", "equipment"))
         )
-        every {
-            characterRepository.save(any<Character>())
-        } returns characterDocument
-
-        characterService.save(newCharacterRequest)
-
-        verify(exactly = 1) {
-            characterRepository.save(any<Character>())
-        }
     }
 
     @Test
     fun `createCharater when required fields are empty throws exception`() {
-        val id = UUID.randomUUID().toString()
         val newCharacterRequest = NewCharacterRequest(
                 nickname = "",
                 name = "",
@@ -82,7 +112,7 @@ internal class CharacterServiceTest {
         )
 
         assertThrows<RequiredFieldException> {
-            characterService.save(newCharacterRequest)
+            characterService.create(newCharacterRequest)
         }
     }
 
@@ -101,7 +131,7 @@ internal class CharacterServiceTest {
         )
 
         assertThrows<InvalidAgeException> {
-            characterService.save(newCharacterRequest)
+            characterService.create(newCharacterRequest)
         }
     }
 

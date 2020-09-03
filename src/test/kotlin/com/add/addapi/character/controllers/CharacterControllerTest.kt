@@ -37,10 +37,10 @@ internal class CharacterControllerTest {
                 name = "Xeresa",
                 age = 38,
                 race = "elf",
-                mainClass = "ranger",
-                subClass = "hunter",
-                spells = listOf("spell"),
-                equipments = listOf("equipment")
+                mainClass = "bard",
+                subClass = "lore",
+                equipments = listOf("amulet"),
+                spells = listOf("acid-arrow")
         )
         val response = mockMvc.perform(
                 MockMvcRequestBuilders

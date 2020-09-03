@@ -16,8 +16,8 @@ class CharacterController(
 ) {
 
     @PostMapping
-    fun save(@RequestBody newCharacterRequest: NewCharacterRequest): ResponseEntity<NewCreatedCharacterResponse> {
-        val id = characterService.save(newCharacterRequest)
+    fun create(@RequestBody newCharacterRequest: NewCharacterRequest): ResponseEntity<NewCreatedCharacterResponse> {
+        val id = characterService.create(newCharacterRequest)
         return ResponseEntity(
                 NewCreatedCharacterResponse(id = id, url = "/characters/$id"),
                 HttpStatus.CREATED
