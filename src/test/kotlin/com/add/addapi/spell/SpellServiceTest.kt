@@ -1,7 +1,6 @@
 package com.add.addapi.spell
 
 import com.add.addapi.attribute.services.AttributeService
-import com.add.addapi.dnd5api.api.*
 import com.add.addapi.dnd5api.AttributeType.SPELL
 import com.add.addapi.dnd5api.MainClass
 import com.add.addapi.dnd5api.NamedAPIResource
