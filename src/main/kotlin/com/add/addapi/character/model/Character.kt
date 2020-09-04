@@ -12,14 +12,14 @@ data class Character(
         val nickname: String,
         val name: String,
         val age: Int,
-        val mainClass: Characteristic,
-        val subClass: Characteristic,
-        val race: Characteristic,
-        val equipment: List<Characteristic>,
-        val spells: List<Characteristic>
+        val mainClass: Attribute,
+        val subClass: Attribute,
+        val race: Attribute,
+        val equipment: List<Attribute>,
+        val spells: List<Attribute>
 
 ) {
-    data class Characteristic(
+    data class Attribute(
             val id: String,
             val name: String,
             val description: String

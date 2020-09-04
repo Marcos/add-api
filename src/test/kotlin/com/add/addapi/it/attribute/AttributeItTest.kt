@@ -1,5 +1,6 @@
-package com.add.addapi.it.character
+package com.add.addapi.it.attribute
 
+import com.add.addapi.attribute.responses.AttributeListResponse
 import com.add.addapi.character.requests.NewCharacterRequest
 import com.add.addapi.character.responses.NewCreatedCharacterResponse
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -22,7 +23,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @ExtendWith(SpringExtension::class)
 @SpringBootTest
 @AutoConfigureMockMvc
-internal class CharacterItTest {
+internal class AttributeItTest {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
@@ -31,51 +32,28 @@ internal class CharacterItTest {
     private lateinit var mapper: ObjectMapper
 
     @Test
-    fun `create character with valid data`() {
-        val newCharacterRequest = NewCharacterRequest(
-                nickname = "Nickname${System.currentTimeMillis()}",
-                name = "Xeresa",
-                age = 38,
-                race = "elf",
-                mainClass = "bard",
-                subClass = "lore",
-                equipments = listOf("amulet"),
-                spells = listOf("acid-arrow")
-        )
+    fun `get attribute list for valid type`() {
         val response = mockMvc.perform(
                 MockMvcRequestBuilders
-                        .post("/characters")
+                        .get("/attributes/race")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(jacksonObjectMapper().writeValueAsString(newCharacterRequest))
-        ).andExpect(status().isCreated)
+        ).andExpect(status().isOk)
                 .andReturn().response
 
-        val createdCharacterResponse = mapper.readValue<NewCreatedCharacterResponse>(
+        val attributeListResponse = mapper.readValue<AttributeListResponse>(
                 response.contentAsString
         )
 
-        mockMvc.perform(
-                MockMvcRequestBuilders.get(createdCharacterResponse.url)
-        ).andExpect(status().isOk)
+        assertThat(attributeListResponse.count).isGreaterThan(0)
+        assertThat(attributeListResponse.results.size).isGreaterThan(0)
     }
 
     @Test
-    fun `create character with invalid resource`() {
-        val newCharacterRequest = NewCharacterRequest(
-                nickname = "Nickname${System.currentTimeMillis()}",
-                name = "Xeresa",
-                age = 38,
-                race = "invalid",
-                mainClass = "bard",
-                subClass = "lore",
-                equipments = listOf("amulet"),
-                spells = listOf("acid-arrow")
-        )
-        mockMvc.perform(
+    fun `get attribute list for invalid type`() {
+        val response = mockMvc.perform(
                 MockMvcRequestBuilders
-                        .post("/characters")
+                        .get("/attributes/invalidtype")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(jacksonObjectMapper().writeValueAsString(newCharacterRequest))
         ).andExpect(status().isBadRequest)
     }
 

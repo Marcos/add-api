@@ -5,13 +5,13 @@ import com.add.addapi.character.model.Character
 import com.add.addapi.character.requests.NewCharacterRequest
 import com.add.addapi.character.repositories.CharacterRepository
 import com.add.addapi.character.responses.CharacterResponse
-import com.add.addapi.dnd5.race.RaceService
+import com.add.addapi.dnd5api.race.RaceService
 import com.add.addapi.character.exceptions.InvalidAgeException
 import com.add.addapi.character.exceptions.RequiredFieldException
-import com.add.addapi.dnd5.equipment.EquipmentService
-import com.add.addapi.dnd5.mainclass.MainClassService
-import com.add.addapi.dnd5.spell.SpellService
-import com.add.addapi.dnd5.subclass.SubClassService
+import com.add.addapi.dnd5api.equipment.EquipmentService
+import com.add.addapi.dnd5api.mainclass.MainClassService
+import com.add.addapi.dnd5api.spell.SpellService
+import com.add.addapi.dnd5api.subclass.SubClassService
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -41,11 +41,11 @@ class CharacterService(
                 nickname = newCharacterRequest.nickname,
                 name = newCharacterRequest.name,
                 age = newCharacterRequest.age,
-                race = Character.Characteristic(race.index, race.name, "${race.age}${DESC_SEPARATOR}${race.alignment}${DESC_SEPARATOR}${race.language_desc}"),
-                mainClass = Character.Characteristic(mainClass.index, mainClass.name, ""),
-                subClass = Character.Characteristic(subClass.index, subClass.name, joinDesc(subClass.desc)),
-                equipment = equipments.map { Character.Characteristic(it.index, it.name, joinDesc(it.desc)) },
-                spells = spells.map { Character.Characteristic(it.index, it.name, joinDesc(it.desc)) }
+                race = Character.Attribute(race.index, race.name, "${race.age}${DESC_SEPARATOR}${race.alignment}${DESC_SEPARATOR}${race.language_desc}"),
+                mainClass = Character.Attribute(mainClass.index, mainClass.name, ""),
+                subClass = Character.Attribute(subClass.index, subClass.name, joinDesc(subClass.desc)),
+                equipment = equipments.map { Character.Attribute(it.index, it.name, joinDesc(it.desc)) },
+                spells = spells.map { Character.Attribute(it.index, it.name, joinDesc(it.desc)) }
         ))
         return savedCharacter.id
     }

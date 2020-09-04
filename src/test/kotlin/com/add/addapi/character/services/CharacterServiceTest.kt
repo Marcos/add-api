@@ -5,11 +5,11 @@ import com.add.addapi.character.repositories.CharacterRepository
 import com.add.addapi.character.requests.NewCharacterRequest
 import com.add.addapi.character.exceptions.InvalidAgeException
 import com.add.addapi.character.exceptions.RequiredFieldException
-import com.add.addapi.dnd5.equipment.EquipmentService
-import com.add.addapi.dnd5.mainclass.MainClassService
-import com.add.addapi.dnd5.race.RaceService
-import com.add.addapi.dnd5.spell.SpellService
-import com.add.addapi.dnd5.subclass.SubClassService
+import com.add.addapi.dnd5api.equipment.EquipmentService
+import com.add.addapi.dnd5api.mainclass.MainClassService
+import com.add.addapi.dnd5api.race.RaceService
+import com.add.addapi.dnd5api.spell.SpellService
+import com.add.addapi.dnd5api.subclass.SubClassService
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -90,11 +90,11 @@ internal class CharacterServiceTest {
                 nickname = "Nickname",
                 name = "Xeresa",
                 age = 38,
-                mainClass = Character.Characteristic("main", "main", "main"),
-                subClass = Character.Characteristic("sub", "sub", "sub"),
-                race = Character.Characteristic("human", "human", "human"),
-                spells = listOf(Character.Characteristic("spell", "spell", "spell")),
-                equipment = listOf(Character.Characteristic("equipment", "equipment", "equipment"))
+                mainClass = Character.Attribute("main", "main", "main"),
+                subClass = Character.Attribute("sub", "sub", "sub"),
+                race = Character.Attribute("human", "human", "human"),
+                spells = listOf(Character.Attribute("spell", "spell", "spell")),
+                equipment = listOf(Character.Attribute("equipment", "equipment", "equipment"))
         )
     }
 
