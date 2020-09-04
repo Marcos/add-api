@@ -3,6 +3,7 @@ package com.add.addapi.subclass
 import com.add.addapi.dnd5api.api.AttributeType.SUBCLASS
 import com.add.addapi.dnd5api.api.MainClass
 import com.add.addapi.dnd5api.api.SubClass
+import com.add.addapi.mainclass.MainClassService
 import com.add.addapi.repositories.ApiRepository
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -20,6 +21,9 @@ internal class SubClassServiceTest {
 
     @MockK(relaxed = true)
     private lateinit var apiRepository: ApiRepository
+
+    @MockK(relaxed = true)
+    private lateinit var mainClassService: MainClassService
 
     @InjectMockKs
     private lateinit var subClassService: SubClassService
