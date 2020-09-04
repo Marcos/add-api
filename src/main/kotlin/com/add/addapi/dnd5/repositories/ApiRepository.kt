@@ -13,7 +13,7 @@ class ApiRepository(
         val restTemplate: RestTemplate
 ) {
 
-    fun getByIndexes(indexes: List<String>, resource: String, type: Class<*>): List<Any> {
+    fun getByIndexes(indexes: List<String>, resource: String, type: Class<*>): List<ApiResource> {
         return indexes.map { getByIndex(it, resource, type) }
     }
 

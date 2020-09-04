@@ -1,7 +1,6 @@
 package com.add.addapi.dnd5.subclass
 
 import com.add.addapi.dnd5.api.MainClass
-import com.add.addapi.dnd5.api.Race
 import com.add.addapi.dnd5.api.SubClass
 import com.add.addapi.dnd5.repositories.ApiRepository
 import org.springframework.stereotype.Service
@@ -13,7 +12,7 @@ class SubClassService(
 
     fun getByIndex(index: String, mainClass: MainClass): SubClass {
         return when (mainClass.subclasses.find { it.index == index }) {
-            null -> throw SubClassNotAllowed(index, mainClass)
+            null -> throw SubClassNotAllowedException(index, mainClass)
             else -> apiRepository.getByIndex(index, "subclasses", SubClass::class.java) as SubClass
         }
     }

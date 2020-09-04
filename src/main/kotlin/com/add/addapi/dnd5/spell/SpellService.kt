@@ -1,6 +1,5 @@
 package com.add.addapi.dnd5.spell
 
-import com.add.addapi.dnd5.api.Equipment
 import com.add.addapi.dnd5.api.MainClass
 import com.add.addapi.dnd5.api.Spell
 import com.add.addapi.dnd5.api.SubClass
@@ -19,7 +18,7 @@ class SpellService(
             val spellClasses = spell.classes.map { it.index }
             val spellSubClasses = spell.subclasses.map { it.index }
             if (!spellClasses.contains(mainClass.index) && !spellSubClasses.contains(subClass.index)) {
-                throw SpellClassException()
+                throw SpellNotAllowedException()
             }
         }
 

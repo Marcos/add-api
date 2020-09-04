@@ -26,7 +26,7 @@ class CharacterService(
 ) {
 
     companion object {
-        private const val DESC_SEPARATOR: String = "\n\n"
+        private const val DESC_SEPARATOR: String = "\\n\\n"
     }
 
     fun create(newCharacterRequest: NewCharacterRequest): String {
@@ -41,7 +41,7 @@ class CharacterService(
                 nickname = newCharacterRequest.nickname,
                 name = newCharacterRequest.name,
                 age = newCharacterRequest.age,
-                race = Character.Characteristic(race.index, race.name, "${race.age}${DESC_SEPARATOR}${race.alignment}{SEPARATOR}${race.language_desc}"),
+                race = Character.Characteristic(race.index, race.name, "${race.age}${DESC_SEPARATOR}${race.alignment}${DESC_SEPARATOR}${race.language_desc}"),
                 mainClass = Character.Characteristic(mainClass.index, mainClass.name, ""),
                 subClass = Character.Characteristic(subClass.index, subClass.name, joinDesc(subClass.desc)),
                 equipment = equipments.map { Character.Characteristic(it.index, it.name, joinDesc(it.desc)) },
@@ -62,10 +62,6 @@ class CharacterService(
                 newCharacterRequest.subClass.isNullOrEmpty()
         )
             throw RequiredFieldException()
-    }
-
-    private fun getCharacteristc(items: List<String>): List<Character.Characteristic> {
-        return items.map { Character.Characteristic(it, it, it) }
     }
 
     fun get(id: String): CharacterResponse {

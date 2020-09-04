@@ -25,7 +25,7 @@ internal class RaceServiceTest {
     fun setUp() = MockKAnnotations.init(this)
 
     @Test
-    fun `get main class by index`() {
+    fun `get race by index`() {
         val index = "race"
 
         val expectedRace = mockk<Race>()

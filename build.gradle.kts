@@ -20,10 +20,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-    implementation("com.github.ben-manes.caffeine:caffeine:2.8.5")
-
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    implementation("com.github.ben-manes.caffeine:caffeine:2.8.5")
+    implementation("org.springdoc:springdoc-openapi-ui:1.2.32")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
