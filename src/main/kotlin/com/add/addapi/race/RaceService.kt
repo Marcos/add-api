@@ -1,8 +1,8 @@
 package com.add.addapi.race
 
-import com.add.addapi.dnd5api.api.AttributeType.RACE
-import com.add.addapi.dnd5api.api.Race
-import com.add.addapi.repositories.ApiRepository
+import com.add.addapi.dnd5api.AttributeType.RACE
+import com.add.addapi.dnd5api.Race
+import com.add.addapi.dnd5api.repositories.ApiRepository
 import org.springframework.stereotype.Service
 
 @Service

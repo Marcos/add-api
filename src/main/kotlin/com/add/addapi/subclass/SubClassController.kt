@@ -1,4 +1,4 @@
-package com.add.addapi.attribute.controllers
+package com.add.addapi.subclass
 
 import com.add.addapi.attribute.responses.AttributeListResponse
 import com.add.addapi.subclass.SubClassService

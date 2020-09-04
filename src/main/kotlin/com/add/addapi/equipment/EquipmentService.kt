@@ -1,8 +1,8 @@
 package com.add.addapi.equipment
 
-import com.add.addapi.dnd5api.api.AttributeType.EQUIPMENT
-import com.add.addapi.dnd5api.api.Equipment
-import com.add.addapi.repositories.ApiRepository
+import com.add.addapi.dnd5api.AttributeType.EQUIPMENT
+import com.add.addapi.dnd5api.Equipment
+import com.add.addapi.dnd5api.repositories.ApiRepository
 import org.springframework.stereotype.Service
 
 @Service

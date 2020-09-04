@@ -1,4 +1,4 @@
-package com.add.addapi.dnd5api.api
+package com.add.addapi.dnd5api
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

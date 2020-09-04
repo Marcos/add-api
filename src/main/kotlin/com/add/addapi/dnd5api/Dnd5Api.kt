@@ -1,4 +1,4 @@
-package com.add.addapi.dnd5api.api
+package com.add.addapi.dnd5api
 
 const val DND5_API_URL = "https://www.dnd5eapi.co/api"
 

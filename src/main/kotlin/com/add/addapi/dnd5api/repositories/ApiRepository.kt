@@ -1,8 +1,12 @@
-package com.add.addapi.repositories
+package com.add.addapi.dnd5api.repositories
 
+import com.add.addapi.dnd5api.ApiResource
+import com.add.addapi.dnd5api.AttributeType
+import com.add.addapi.dnd5api.DND5_API_URL
+import com.add.addapi.dnd5api.ListAPIResource
 import com.add.addapi.dnd5api.api.*
 import com.add.addapi.exceptions.InvalidResource
-import com.add.addapi.repositories.ApiCache.apiCache
+import com.add.addapi.dnd5api.repositories.ApiCache.apiCache
 import org.springframework.stereotype.Repository
 import org.springframework.web.client.RestTemplate
 

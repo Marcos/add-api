@@ -1,8 +1,13 @@
 package com.add.addapi.spell
 
+import com.add.addapi.attribute.services.AttributeService
 import com.add.addapi.dnd5api.api.*
-import com.add.addapi.dnd5api.api.AttributeType.SPELL
-import com.add.addapi.repositories.ApiRepository
+import com.add.addapi.dnd5api.AttributeType.SPELL
+import com.add.addapi.dnd5api.MainClass
+import com.add.addapi.dnd5api.NamedAPIResource
+import com.add.addapi.dnd5api.Spell
+import com.add.addapi.dnd5api.SubClass
+import com.add.addapi.dnd5api.repositories.ApiRepository
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -16,6 +21,9 @@ import org.junit.jupiter.api.assertThrows
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class SpellServiceTest {
+
+    @MockK(relaxed = true)
+    private lateinit var attributeService: AttributeService
 
     @MockK(relaxed = true)
     private lateinit var apiRepository: ApiRepository

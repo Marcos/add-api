@@ -1,8 +1,8 @@
 package com.add.addapi.mainclass
 
-import com.add.addapi.dnd5api.api.AttributeType.MAINCLASS
-import com.add.addapi.dnd5api.api.MainClass
-import com.add.addapi.repositories.ApiRepository
+import com.add.addapi.dnd5api.AttributeType.MAINCLASS
+import com.add.addapi.dnd5api.MainClass
+import com.add.addapi.dnd5api.repositories.ApiRepository
 import org.springframework.stereotype.Service
 
 @Service

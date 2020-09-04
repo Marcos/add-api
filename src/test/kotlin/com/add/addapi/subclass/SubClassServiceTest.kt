@@ -1,10 +1,10 @@
 package com.add.addapi.subclass
 
-import com.add.addapi.dnd5api.api.AttributeType.SUBCLASS
-import com.add.addapi.dnd5api.api.MainClass
-import com.add.addapi.dnd5api.api.SubClass
+import com.add.addapi.dnd5api.AttributeType.SUBCLASS
+import com.add.addapi.dnd5api.MainClass
+import com.add.addapi.dnd5api.SubClass
 import com.add.addapi.mainclass.MainClassService
-import com.add.addapi.repositories.ApiRepository
+import com.add.addapi.dnd5api.repositories.ApiRepository
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs

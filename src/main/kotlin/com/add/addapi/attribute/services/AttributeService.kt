@@ -3,9 +3,9 @@ package com.add.addapi.attribute.services
 import com.add.addapi.attribute.exceptions.InvalidAttributeType
 import com.add.addapi.attribute.responses.AttributeListResponse
 import com.add.addapi.attribute.responses.AttributeResponse
-import com.add.addapi.dnd5api.api.AttributeType
-import com.add.addapi.dnd5api.api.ListAPIResource
-import com.add.addapi.repositories.ApiRepository
+import com.add.addapi.dnd5api.AttributeType
+import com.add.addapi.dnd5api.ListAPIResource
+import com.add.addapi.dnd5api.repositories.ApiRepository
 import org.springframework.stereotype.Service
 
 @Service
@@ -18,7 +18,10 @@ class AttributeService(
     }
 
     fun listByType(type: String): AttributeListResponse {
-        val type = getSafeAttributeType(type)
+        return listByType(getSafeAttributeType(type))
+    }
+
+    fun listByType(type: AttributeType): AttributeListResponse {
         val listAPIResource = apiRepository.list(type) as ListAPIResource
         return AttributeListResponse(
                 count = listAPIResource.count,
