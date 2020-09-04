@@ -1,8 +1,8 @@
-package com.add.addapi.dnd5api.spell
+package com.add.addapi.spell
 
 import com.add.addapi.dnd5api.api.*
 import com.add.addapi.dnd5api.api.AttributeType.SPELL
-import com.add.addapi.dnd5api.repositories.ApiRepository
+import com.add.addapi.repositories.ApiRepository
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs

@@ -1,4 +1,4 @@
-package com.add.addapi.dnd5api.repositories
+package com.add.addapi.repositories
 
 import com.add.addapi.dnd5api.api.ApiResource
 import com.github.benmanes.caffeine.cache.Cache

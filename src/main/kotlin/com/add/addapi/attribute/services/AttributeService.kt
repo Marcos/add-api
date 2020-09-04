@@ -5,7 +5,7 @@ import com.add.addapi.attribute.responses.AttributeListResponse
 import com.add.addapi.attribute.responses.AttributeResponse
 import com.add.addapi.dnd5api.api.AttributeType
 import com.add.addapi.dnd5api.api.ListAPIResource
-import com.add.addapi.dnd5api.repositories.ApiRepository
+import com.add.addapi.repositories.ApiRepository
 import org.springframework.stereotype.Service
 
 @Service

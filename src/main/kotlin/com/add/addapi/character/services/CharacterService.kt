@@ -5,13 +5,13 @@ import com.add.addapi.character.model.Character
 import com.add.addapi.character.requests.NewCharacterRequest
 import com.add.addapi.character.repositories.CharacterRepository
 import com.add.addapi.character.responses.CharacterResponse
-import com.add.addapi.dnd5api.race.RaceService
+import com.add.addapi.race.RaceService
 import com.add.addapi.character.exceptions.InvalidAgeException
 import com.add.addapi.character.exceptions.RequiredFieldException
-import com.add.addapi.dnd5api.equipment.EquipmentService
-import com.add.addapi.dnd5api.mainclass.MainClassService
-import com.add.addapi.dnd5api.spell.SpellService
-import com.add.addapi.dnd5api.subclass.SubClassService
+import com.add.addapi.equipment.EquipmentService
+import com.add.addapi.mainclass.MainClassService
+import com.add.addapi.spell.SpellService
+import com.add.addapi.subclass.SubClassService
 import org.springframework.stereotype.Service
 import java.util.*
 

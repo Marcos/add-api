@@ -1,4 +1,4 @@
-package com.add.addapi.dnd5api.spell
+package com.add.addapi.spell
 
 class SpellNotAllowedException : Throwable() {
 

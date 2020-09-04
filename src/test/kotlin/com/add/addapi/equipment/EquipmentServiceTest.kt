@@ -1,8 +1,8 @@
-package com.add.addapi.dnd5api.equipment
+package com.add.addapi.equipment
 
 import com.add.addapi.dnd5api.api.AttributeType.EQUIPMENT
 import com.add.addapi.dnd5api.api.Equipment
-import com.add.addapi.dnd5api.repositories.ApiRepository
+import com.add.addapi.repositories.ApiRepository
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs

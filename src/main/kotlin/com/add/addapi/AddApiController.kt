@@ -1,4 +1,4 @@
-package com.add.addapi.health.controllers
+package com.add.addapi
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -7,11 +7,15 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/health")
-class HealthController {
+class AddApiController {
 
-    @GetMapping
+    @GetMapping("/health")
     fun get(): ResponseEntity<String> {
         return ResponseEntity("OK", HttpStatus.OK)
+    }
+
+    @GetMapping("/")
+    fun index(): ResponseEntity<String> {
+        return ResponseEntity("Hey, this is the add-api!", HttpStatus.OK)
     }
 }

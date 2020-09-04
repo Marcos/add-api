@@ -1,4 +1,4 @@
-package com.add.addapi.dnd5api.subclass
+package com.add.addapi.subclass
 
 import com.add.addapi.dnd5api.api.MainClass
 
