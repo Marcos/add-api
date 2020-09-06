@@ -5,6 +5,7 @@ import com.add.addapi.character.responses.CharacterResponse
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
+import java.time.LocalDateTime
 
 @Document
 data class Character(
@@ -18,7 +19,8 @@ data class Character(
         val subClass: Attribute,
         val race: Attribute,
         val equipments: List<Attribute>,
-        val spells: List<Attribute>
+        val spells: List<Attribute>,
+        val createdAt: LocalDateTime = LocalDateTime.now()
 
 ) {
     data class Attribute(

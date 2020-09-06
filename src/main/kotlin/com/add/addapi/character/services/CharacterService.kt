@@ -80,7 +80,7 @@ class CharacterService(
     }
 
     fun list(): List<CharacterReferenceResponse> {
-        return characterRepository.findAll(Sort.by("nickname"))
+        return characterRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"))
                 .map { it.toCharacterReferenceResponse() }
     }
 
