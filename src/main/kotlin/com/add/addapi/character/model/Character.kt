@@ -1,5 +1,7 @@
 package com.add.addapi.character.model
 
+import com.add.addapi.character.responses.CharacterReferenceResponse
+import com.add.addapi.character.responses.CharacterResponse
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
@@ -15,7 +17,7 @@ data class Character(
         val mainClass: Attribute,
         val subClass: Attribute,
         val race: Attribute,
-        val equipment: List<Attribute>,
+        val equipments: List<Attribute>,
         val spells: List<Attribute>
 
 ) {
@@ -23,5 +25,30 @@ data class Character(
             val id: String,
             val name: String,
             val description: String
+    ) {
+        fun toCharacterAttributeResponse() = CharacterResponse.CharacterAttributeResponse(
+                id = id,
+                name = name,
+                description = description
+        )
+    }
+
+    fun toCharacterResponse() = CharacterResponse(
+            id = id,
+            name = name,
+            nickname = nickname,
+            age = age,
+            race = race.toCharacterAttributeResponse(),
+            mainClass = mainClass.toCharacterAttributeResponse(),
+            subClass = subClass.toCharacterAttributeResponse(),
+            spells = spells.map { it.toCharacterAttributeResponse() },
+            equipments = equipments.map { it.toCharacterAttributeResponse() }
     )
+
+    fun toCharacterReferenceResponse() = CharacterReferenceResponse(
+            id = id,
+            nickname = nickname,
+            url = "/characters/${nickname}"
+    )
+
 }

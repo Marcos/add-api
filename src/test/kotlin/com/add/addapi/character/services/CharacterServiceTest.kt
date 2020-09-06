@@ -58,15 +58,15 @@ internal class CharacterServiceTest {
             characterRepository.save(any<Character>())
         } returns savedCharacter
 
-        val savedId = characterService.create(newCharacterRequest)
+        val character = characterService.create(newCharacterRequest)
 
-        assertThat(savedId).isEqualTo(characterDocumentId)
+        assertThat(character.id).isEqualTo(characterDocumentId)
         verify(exactly = 1) {
-            raceService.getByIndex(newCharacterRequest.race)
-            mainClassService.getByIndex(newCharacterRequest.mainClass)
-            subClassService.getByIndex(newCharacterRequest.subClass, any())
-            equipmentService.getByIndexes(newCharacterRequest.equipments)
-            spellService.getByIndexes(newCharacterRequest.spells, any(), any())
+            raceService.getByIndex(newCharacterRequest.race.index)
+            mainClassService.getByIndex(newCharacterRequest.mainClass.index)
+            subClassService.getByIndex(newCharacterRequest.subClass.index, any())
+            equipmentService.getByIndexes(newCharacterRequest.equipments.map { it.index })
+            spellService.getByIndexes(newCharacterRequest.spells.map { it.index }, any(), any())
             characterRepository.save(any<Character>())
         }
     }
@@ -76,11 +76,11 @@ internal class CharacterServiceTest {
                 nickname = "Nickname",
                 name = "Xeresa",
                 age = 38,
-                mainClass = "main",
-                subClass = "sub",
-                race = "human",
-                spells = listOf("spell"),
-                equipments = listOf("equipment")
+                mainClass = NewCharacterRequest.AttributeReference("main"),
+                subClass =  NewCharacterRequest.AttributeReference("sub"),
+                race =  NewCharacterRequest.AttributeReference("human"),
+                spells = listOf( NewCharacterRequest.AttributeReference("spell")),
+                equipments = listOf( NewCharacterRequest.AttributeReference("equipment"))
         )
     }
 
@@ -94,7 +94,7 @@ internal class CharacterServiceTest {
                 subClass = Character.Attribute("sub", "sub", "sub"),
                 race = Character.Attribute("human", "human", "human"),
                 spells = listOf(Character.Attribute("spell", "spell", "spell")),
-                equipment = listOf(Character.Attribute("equipment", "equipment", "equipment"))
+                equipments = listOf(Character.Attribute("equipment", "equipment", "equipment"))
         )
     }
 
@@ -104,9 +104,9 @@ internal class CharacterServiceTest {
                 nickname = "",
                 name = "",
                 age = 38,
-                mainClass = "",
-                subClass = "",
-                race = "",
+                mainClass = NewCharacterRequest.AttributeReference(""),
+                subClass = NewCharacterRequest.AttributeReference(""),
+                race = NewCharacterRequest.AttributeReference(""),
                 spells = emptyList(),
                 equipments = emptyList()
         )
@@ -122,11 +122,11 @@ internal class CharacterServiceTest {
                 nickname = "Nickname",
                 name = "Xeresa",
                 age = -10,
-                mainClass = "main",
-                subClass = "sub",
-                race = "human",
-                spells = listOf("spell"),
-                equipments = listOf("equipment")
+                mainClass = NewCharacterRequest.AttributeReference("main"),
+                subClass =  NewCharacterRequest.AttributeReference("sub"),
+                race =  NewCharacterRequest.AttributeReference("human"),
+                spells = listOf( NewCharacterRequest.AttributeReference("spell")),
+                equipments = listOf( NewCharacterRequest.AttributeReference("equipment"))
         )
 
         assertThrows<InvalidAgeException> {

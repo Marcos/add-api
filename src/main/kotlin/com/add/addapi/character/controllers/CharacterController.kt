@@ -1,8 +1,9 @@
 package com.add.addapi.character.controllers
 
 import com.add.addapi.character.requests.NewCharacterRequest
+import com.add.addapi.character.responses.CharacterNicknameResponse
 import com.add.addapi.character.responses.CharacterResponse
-import com.add.addapi.character.responses.NewCreatedCharacterResponse
+import com.add.addapi.character.responses.CharacterReferenceResponse
 import com.add.addapi.character.services.CharacterService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -16,17 +17,24 @@ class CharacterController(
 ) {
 
     @PostMapping
-    fun create(@RequestBody newCharacterRequest: NewCharacterRequest): ResponseEntity<NewCreatedCharacterResponse> {
-        val id = characterService.create(newCharacterRequest)
-        return ResponseEntity(
-                NewCreatedCharacterResponse(id = id, url = "/characters/$id"),
-                HttpStatus.CREATED
-        )
+    fun create(@RequestBody newCharacterRequest: NewCharacterRequest): ResponseEntity<CharacterReferenceResponse> {
+        val characterResponse = characterService.create(newCharacterRequest)
+        return ResponseEntity(characterResponse, HttpStatus.CREATED)
     }
 
-    @GetMapping("/{id}")
-    fun get(@PathVariable("id") id: String): CharacterResponse {
-        return characterService.get(id)
+    @GetMapping
+    fun list(): List<CharacterReferenceResponse> {
+        return characterService.list()
+    }
+
+    @GetMapping("/{nickname}")
+    fun get(@PathVariable("nickname") nickname: String): CharacterResponse {
+        return characterService.getByNickname(nickname)
+    }
+
+    @GetMapping("/exists/{nickname}")
+    fun verifyNicknameExists(@PathVariable("nickname") nickname: String): CharacterNicknameResponse {
+        return characterService.verifyNicknameExists(nickname)
     }
 
 }

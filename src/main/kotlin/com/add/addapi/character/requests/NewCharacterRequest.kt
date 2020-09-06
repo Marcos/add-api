@@ -4,9 +4,13 @@ data class NewCharacterRequest(
         val nickname: String,
         val name: String,
         val age: Int,
-        val mainClass: String,
-        val subClass: String,
-        val race: String,
-        val equipments: List<String>,
-        val spells: List<String>
-)
+        val mainClass: AttributeReference,
+        val subClass: AttributeReference,
+        val race: AttributeReference,
+        val equipments: List<AttributeReference>,
+        val spells: List<AttributeReference>
+) {
+
+    data class AttributeReference(val index: String)
+
+}

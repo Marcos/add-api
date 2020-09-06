@@ -1,22 +1,19 @@
 package com.add.addapi.it.character
 
 import com.add.addapi.character.requests.NewCharacterRequest
-import com.add.addapi.character.responses.NewCreatedCharacterResponse
+import com.add.addapi.character.responses.CharacterReferenceResponse
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @ExtendWith(SpringExtension::class)
@@ -36,11 +33,11 @@ internal class CharacterItTest {
                 nickname = "Nickname${System.currentTimeMillis()}",
                 name = "Xeresa",
                 age = 38,
-                race = "elf",
-                mainClass = "bard",
-                subClass = "lore",
-                equipments = listOf("amulet"),
-                spells = listOf("acid-arrow")
+                race = NewCharacterRequest.AttributeReference("elf"),
+                mainClass = NewCharacterRequest.AttributeReference("bard"),
+                subClass = NewCharacterRequest.AttributeReference("lore"),
+                equipments = listOf(NewCharacterRequest.AttributeReference("amulet")),
+                spells = listOf(NewCharacterRequest.AttributeReference("acid-arrow"))
         )
         val response = mockMvc.perform(
                 MockMvcRequestBuilders
@@ -50,7 +47,7 @@ internal class CharacterItTest {
         ).andExpect(status().isCreated)
                 .andReturn().response
 
-        val createdCharacterResponse = mapper.readValue<NewCreatedCharacterResponse>(
+        val createdCharacterResponse = mapper.readValue<CharacterReferenceResponse>(
                 response.contentAsString
         )
 
@@ -65,11 +62,11 @@ internal class CharacterItTest {
                 nickname = "Nickname${System.currentTimeMillis()}",
                 name = "Xeresa",
                 age = 38,
-                race = "invalid",
-                mainClass = "bard",
-                subClass = "lore",
-                equipments = listOf("amulet"),
-                spells = listOf("acid-arrow")
+                race = NewCharacterRequest.AttributeReference("invalid"),
+                mainClass = NewCharacterRequest.AttributeReference("invalid"),
+                subClass = NewCharacterRequest.AttributeReference("invalid"),
+                equipments = listOf(NewCharacterRequest.AttributeReference("invalid")),
+                spells = listOf(NewCharacterRequest.AttributeReference("invalid"))
         )
         mockMvc.perform(
                 MockMvcRequestBuilders
