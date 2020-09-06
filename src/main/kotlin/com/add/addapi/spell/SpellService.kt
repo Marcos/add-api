@@ -45,7 +45,7 @@ class SpellService(
     fun getAllSpells(): List<Spell> {
         val spellIndexList = attributeService.listByType(SPELL)
         return apiRepository.getByIndexes(
-                spellIndexList.results.map { it.index }, SPELL
+                spellIndexList.results.map { it.id }, SPELL
         ) as List<Spell>
     }
 }
