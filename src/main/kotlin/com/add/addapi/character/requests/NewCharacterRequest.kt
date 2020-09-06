@@ -11,6 +11,6 @@ data class NewCharacterRequest(
         val spells: List<AttributeReference>
 ) {
 
-    data class AttributeReference(val index: String)
+    data class AttributeReference(val id: String)
 
 }

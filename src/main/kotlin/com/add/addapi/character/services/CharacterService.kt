@@ -34,11 +34,11 @@ class CharacterService(
 
     fun create(newCharacterRequest: NewCharacterRequest): CharacterReferenceResponse {
         validate(newCharacterRequest)
-        val race = raceService.getByIndex(newCharacterRequest.race.index)
-        val mainClass = mainClassService.getByIndex(newCharacterRequest.mainClass.index)
-        val subClass = subClassService.getByIndex(newCharacterRequest.subClass.index, mainClass)
-        val equipments = equipmentService.getByIndexes(newCharacterRequest.equipments.map { it.index })
-        val spells = spellService.getByIndexes(newCharacterRequest.spells.map { it.index }, mainClass, subClass)
+        val race = raceService.getByIndex(newCharacterRequest.race.id)
+        val mainClass = mainClassService.getByIndex(newCharacterRequest.mainClass.id)
+        val subClass = subClassService.getByIndex(newCharacterRequest.subClass.id, mainClass)
+        val equipments = equipmentService.getByIndexes(newCharacterRequest.equipments.map { it.id })
+        val spells = spellService.getByIndexes(newCharacterRequest.spells.map { it.id }, mainClass, subClass)
         val savedCharacter = characterRepository.save(Character(
                 id = UUID.randomUUID().toString(),
                 nickname = newCharacterRequest.nickname,
@@ -61,9 +61,9 @@ class CharacterService(
             throw InvalidAgeException()
         if (newCharacterRequest.nickname.isNullOrEmpty() ||
                 newCharacterRequest.name.isNullOrEmpty() ||
-                newCharacterRequest.race.index.isNullOrEmpty() ||
-                newCharacterRequest.mainClass.index.isNullOrEmpty() ||
-                newCharacterRequest.subClass.index.isNullOrEmpty()
+                newCharacterRequest.race.id.isNullOrEmpty() ||
+                newCharacterRequest.mainClass.id.isNullOrEmpty() ||
+                newCharacterRequest.subClass.id.isNullOrEmpty()
         )
             throw RequiredFieldException()
     }

@@ -62,11 +62,11 @@ internal class CharacterServiceTest {
 
         assertThat(character.id).isEqualTo(characterDocumentId)
         verify(exactly = 1) {
-            raceService.getByIndex(newCharacterRequest.race.index)
-            mainClassService.getByIndex(newCharacterRequest.mainClass.index)
-            subClassService.getByIndex(newCharacterRequest.subClass.index, any())
-            equipmentService.getByIndexes(newCharacterRequest.equipments.map { it.index })
-            spellService.getByIndexes(newCharacterRequest.spells.map { it.index }, any(), any())
+            raceService.getByIndex(newCharacterRequest.race.id)
+            mainClassService.getByIndex(newCharacterRequest.mainClass.id)
+            subClassService.getByIndex(newCharacterRequest.subClass.id, any())
+            equipmentService.getByIndexes(newCharacterRequest.equipments.map { it.id })
+            spellService.getByIndexes(newCharacterRequest.spells.map { it.id }, any(), any())
             characterRepository.save(any<Character>())
         }
     }
