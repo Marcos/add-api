@@ -65,8 +65,8 @@ internal class CharacterServiceTest {
             raceService.getByIndex(newCharacterRequest.race.id)
             mainClassService.getByIndex(newCharacterRequest.mainClass.id)
             subClassService.getByIndex(newCharacterRequest.subClass.id, any())
-            equipmentService.getByIndexes(newCharacterRequest.equipments.map { it.id })
-            spellService.getByIndexes(newCharacterRequest.spells.map { it.id }, any(), any())
+            equipmentService.getByIndexes(newCharacterRequest.equipments!!.map { it.id })
+            spellService.getByIndexes(newCharacterRequest.spells!!.map { it.id }, any(), any())
             characterRepository.save(any<Character>())
         }
     }

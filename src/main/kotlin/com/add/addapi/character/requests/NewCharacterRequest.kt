@@ -7,8 +7,8 @@ data class NewCharacterRequest(
         val mainClass: AttributeReference,
         val subClass: AttributeReference,
         val race: AttributeReference,
-        val equipments: List<AttributeReference>,
-        val spells: List<AttributeReference>
+        val equipments: List<AttributeReference>?,
+        val spells: List<AttributeReference>?
 ) {
 
     data class AttributeReference(val id: String)

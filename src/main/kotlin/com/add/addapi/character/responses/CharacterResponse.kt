@@ -8,9 +8,9 @@ data class CharacterResponse(
         val nickname: String,
         val name: String,
         val age: Int,
+        val race: CharacterAttributeResponse,
         val mainClass: CharacterAttributeResponse,
         val subClass: CharacterAttributeResponse,
-        val race: CharacterAttributeResponse,
         val equipments: List<CharacterAttributeResponse>,
         val spells: List<CharacterAttributeResponse>
 ){

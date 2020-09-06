@@ -10,6 +10,7 @@ import com.add.addapi.character.exceptions.InvalidAgeException
 import com.add.addapi.character.exceptions.RequiredFieldException
 import com.add.addapi.character.responses.CharacterNicknameResponse
 import com.add.addapi.character.responses.CharacterReferenceResponse
+import com.add.addapi.dnd5api.Race
 import com.add.addapi.equipment.EquipmentService
 import com.add.addapi.mainclass.MainClassService
 import com.add.addapi.spell.SpellService
@@ -34,25 +35,40 @@ class CharacterService(
 
     fun create(newCharacterRequest: NewCharacterRequest): CharacterReferenceResponse {
         validate(newCharacterRequest)
+        val character = getCharacterData(newCharacterRequest)
+        val savedCharacter = characterRepository.save(character)
+        return savedCharacter.toCharacterReferenceResponse()
+
+    }
+
+    private fun getCharacterData(newCharacterRequest: NewCharacterRequest): Character {
         val race = raceService.getByIndex(newCharacterRequest.race.id)
         val mainClass = mainClassService.getByIndex(newCharacterRequest.mainClass.id)
         val subClass = subClassService.getByIndex(newCharacterRequest.subClass.id, mainClass)
-        val equipments = equipmentService.getByIndexes(newCharacterRequest.equipments.map { it.id })
-        val spells = spellService.getByIndexes(newCharacterRequest.spells.map { it.id }, mainClass, subClass)
-        val savedCharacter = characterRepository.save(Character(
+        val equipments = equipmentService.getByIndexes(getEquipmentIndexes(newCharacterRequest))
+        val spells = spellService.getByIndexes(getSpellIndexes(newCharacterRequest), mainClass, subClass)
+        return Character(
                 id = UUID.randomUUID().toString(),
                 nickname = newCharacterRequest.nickname,
                 name = newCharacterRequest.name,
                 age = newCharacterRequest.age,
-                race = Character.Attribute(race.index, race.name, "${race.age}${DESC_SEPARATOR}${race.alignment}${DESC_SEPARATOR}${race.language_desc}"),
+                race = Character.Attribute(race.index, race.name, getRaceDescription(race)),
                 mainClass = Character.Attribute(mainClass.index, mainClass.name, ""),
                 subClass = Character.Attribute(subClass.index, subClass.name, joinDesc(subClass.desc)),
                 equipments = equipments.map { Character.Attribute(it.index, it.name, joinDesc(it.desc)) },
                 spells = spells.map { Character.Attribute(it.index, it.name, joinDesc(it.desc)) }
-        ))
-        return savedCharacter.toCharacterReferenceResponse()
-
+        )
     }
+
+    private fun getRaceDescription(race: Race) =
+            "${race.age}$DESC_SEPARATOR${race.alignment}$DESC_SEPARATOR${race.language_desc}"
+
+    private fun getSpellIndexes(newCharacterRequest: NewCharacterRequest) =
+            (newCharacterRequest.spells?.map { it.id }
+                    ?: emptyList())
+
+    private fun getEquipmentIndexes(newCharacterRequest: NewCharacterRequest) =
+            newCharacterRequest.equipments?.map { it.id } ?: emptyList()
 
     private fun joinDesc(it: List<*>) = it.joinToString(separator = DESC_SEPARATOR)
 
