@@ -1,18 +1,18 @@
 package com.add.addapi.character.services
 
 import com.add.addapi.character.exceptions.CharacterNotFoundException
-import com.add.addapi.character.model.Character
-import com.add.addapi.character.requests.NewCharacterRequest
-import com.add.addapi.character.repositories.CharacterRepository
-import com.add.addapi.character.responses.CharacterResponse
-import com.add.addapi.race.RaceService
 import com.add.addapi.character.exceptions.InvalidAgeException
 import com.add.addapi.character.exceptions.RequiredFieldException
+import com.add.addapi.character.model.Character
+import com.add.addapi.character.repositories.CharacterRepository
+import com.add.addapi.character.requests.NewCharacterRequest
 import com.add.addapi.character.responses.CharacterNicknameResponse
 import com.add.addapi.character.responses.CharacterReferenceResponse
+import com.add.addapi.character.responses.CharacterResponse
 import com.add.addapi.dnd5api.Race
 import com.add.addapi.equipment.EquipmentService
 import com.add.addapi.mainclass.MainClassService
+import com.add.addapi.race.RaceService
 import com.add.addapi.spell.SpellService
 import com.add.addapi.subclass.SubClassService
 import org.springframework.data.domain.Sort

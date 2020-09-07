@@ -5,8 +5,8 @@ import com.add.addapi.attribute.responses.AttributeResponse
 import com.add.addapi.dnd5api.AttributeType.SUBCLASS
 import com.add.addapi.dnd5api.MainClass
 import com.add.addapi.dnd5api.SubClass
-import com.add.addapi.mainclass.MainClassService
 import com.add.addapi.dnd5api.repositories.ApiRepository
+import com.add.addapi.mainclass.MainClassService
 import org.springframework.stereotype.Service
 
 @Service

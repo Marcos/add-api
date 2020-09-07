@@ -8,8 +8,12 @@ import org.springframework.stereotype.Component
 class Schedule(
         val spellService: SpellService
 ) {
-    
-    @Scheduled(fixedRate = 7200000)
+
+    companion object {
+        const val TWO_HOURS: Long = 7200000
+    }
+
+    @Scheduled(fixedRate = TWO_HOURS)
     fun spellsPreFetch() {
         logger().info("Prefetching spells")
         spellService.getAllSpells()

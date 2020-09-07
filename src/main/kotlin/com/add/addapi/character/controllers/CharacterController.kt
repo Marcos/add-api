@@ -2,8 +2,8 @@ package com.add.addapi.character.controllers
 
 import com.add.addapi.character.requests.NewCharacterRequest
 import com.add.addapi.character.responses.CharacterNicknameResponse
-import com.add.addapi.character.responses.CharacterResponse
 import com.add.addapi.character.responses.CharacterReferenceResponse
+import com.add.addapi.character.responses.CharacterResponse
 import com.add.addapi.character.services.CharacterService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

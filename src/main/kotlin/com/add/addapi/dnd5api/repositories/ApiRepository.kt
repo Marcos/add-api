@@ -5,8 +5,8 @@ import com.add.addapi.dnd5api.ApiResource
 import com.add.addapi.dnd5api.AttributeType
 import com.add.addapi.dnd5api.DND5_API_URL
 import com.add.addapi.dnd5api.ListAPIResource
-import com.add.addapi.exceptions.InvalidResource
 import com.add.addapi.dnd5api.repositories.ApiCache.apiCache
+import com.add.addapi.exceptions.InvalidResource
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Repository
 import org.springframework.web.client.RestTemplate
@@ -55,10 +55,7 @@ class ApiRepository(
 
     private fun get(url: String, type: Class<*>, exceptionMessage: String): ResponseEntity<out Any> {
         try {
-            return restTemplate.getForEntity(
-                    url,
-                    type
-            )
+            return restTemplate.getForEntity(url, type)
         } catch (exception: Exception) {
             logger().log(Level.SEVERE, "Error getting resource", exception)
             throw InvalidResource(exceptionMessage, exception)

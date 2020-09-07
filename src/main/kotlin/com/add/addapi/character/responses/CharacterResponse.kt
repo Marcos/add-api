@@ -1,8 +1,5 @@
 package com.add.addapi.character.responses
 
-import com.add.addapi.attribute.responses.AttributeResponse
-import com.add.addapi.character.requests.NewCharacterRequest
-
 data class CharacterResponse(
         val id: String,
         val nickname: String,
