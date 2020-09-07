@@ -2,6 +2,7 @@ package com.add.addapi.character.services
 
 import com.add.addapi.character.exceptions.CharacterNotFoundException
 import com.add.addapi.character.exceptions.InvalidAgeException
+import com.add.addapi.character.exceptions.NicknameAlreadyExistsException
 import com.add.addapi.character.exceptions.RequiredFieldException
 import com.add.addapi.character.model.Character
 import com.add.addapi.character.repositories.CharacterRepository
@@ -15,7 +16,11 @@ import com.add.addapi.mainclass.MainClassService
 import com.add.addapi.race.RaceService
 import com.add.addapi.spell.SpellService
 import com.add.addapi.subclass.SubClassService
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
+import org.springframework.data.domain.Sort.*
+import org.springframework.data.domain.Sort.Direction.DESC
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -28,9 +33,21 @@ class CharacterService(
         val equipmentService: EquipmentService,
         val spellService: SpellService
 ) {
+    fun getByNickname(nickname: String): CharacterResponse {
+        val character = characterRepository.findByNickname(nickname)
+                .orElseThrow { throw CharacterNotFoundException() }
+        return character.toCharacterResponse()
+    }
 
-    companion object {
-        private const val DESC_SEPARATOR: String = "\\n\\n"
+    fun verifyNicknameExists(nickname: String): CharacterNicknameResponse {
+        return CharacterNicknameResponse(nickname, nicknameExists(nickname))
+    }
+
+    fun list(): List<CharacterReferenceResponse> {
+        val page = PageRequest.of(0, 10, by(Order.desc("createdAt")))
+        return characterRepository.findAll(page)
+                .content
+                .map { it.toCharacterReferenceResponse() }
     }
 
     fun create(newCharacterRequest: NewCharacterRequest): CharacterReferenceResponse {
@@ -38,15 +55,14 @@ class CharacterService(
         val character = getCharacterData(newCharacterRequest)
         val savedCharacter = characterRepository.save(character)
         return savedCharacter.toCharacterReferenceResponse()
-
     }
 
     private fun getCharacterData(newCharacterRequest: NewCharacterRequest): Character {
         val race = raceService.getByIndex(newCharacterRequest.race.id)
         val mainClass = mainClassService.getByIndex(newCharacterRequest.mainClass.id)
         val subClass = subClassService.getByIndex(newCharacterRequest.subClass.id, mainClass)
-        val equipments = equipmentService.getByIndexes(getEquipmentIndexes(newCharacterRequest))
-        val spells = spellService.getByIndexes(getSpellIndexes(newCharacterRequest), mainClass, subClass)
+        val equipments = equipmentService.getByIndexes(getIndexes(newCharacterRequest.equipments))
+        val spells = spellService.getByIndexes(getIndexes(newCharacterRequest.spells), mainClass, subClass)
         return Character(
                 id = UUID.randomUUID().toString(),
                 nickname = newCharacterRequest.nickname,
@@ -60,17 +76,15 @@ class CharacterService(
         )
     }
 
+    private fun nicknameExists(nickname: String) = characterRepository.findByNickname(nickname).isPresent
+
     private fun getRaceDescription(race: Race) =
-            "${race.age}$DESC_SEPARATOR${race.alignment}$DESC_SEPARATOR${race.language_desc}"
+            "${race.age} ${race.alignment} ${race.language_desc}"
 
-    private fun getSpellIndexes(newCharacterRequest: NewCharacterRequest) =
-            (newCharacterRequest.spells?.map { it.id }
-                    ?: emptyList())
+    private fun getIndexes(indexes: List<NewCharacterRequest.AttributeReference>?) =
+            indexes?.map { it.id } ?: emptyList()
 
-    private fun getEquipmentIndexes(newCharacterRequest: NewCharacterRequest) =
-            newCharacterRequest.equipments?.map { it.id } ?: emptyList()
-
-    private fun joinDesc(it: List<String>?) = it?.joinToString(separator = DESC_SEPARATOR) ?: ""
+    private fun joinDesc(it: List<String>?) = it?.joinToString(separator = " ") ?: ""
 
     private fun validate(newCharacterRequest: NewCharacterRequest) {
         if (newCharacterRequest.age <= 0)
@@ -82,23 +96,8 @@ class CharacterService(
                 newCharacterRequest.subClass.id.isNullOrEmpty()
         )
             throw RequiredFieldException()
+        if(nicknameExists(newCharacterRequest.nickname))
+            throw NicknameAlreadyExistsException()
     }
-
-    fun getByNickname(nickname: String): CharacterResponse {
-        val character = characterRepository.findByNickname(nickname)
-                .orElseThrow { throw CharacterNotFoundException() }
-        return character.toCharacterResponse()
-    }
-
-    fun verifyNicknameExists(nickname: String): CharacterNicknameResponse {
-        val character = characterRepository.findByNickname(nickname)
-        return CharacterNicknameResponse(nickname, character.isPresent)
-    }
-
-    fun list(): List<CharacterReferenceResponse> {
-        return characterRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"))
-                .map { it.toCharacterReferenceResponse() }
-    }
-
 
 }

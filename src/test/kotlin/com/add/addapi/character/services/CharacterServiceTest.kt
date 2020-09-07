@@ -71,33 +71,6 @@ internal class CharacterServiceTest {
         }
     }
 
-    private fun createNewCharacterRequest(): NewCharacterRequest {
-        return NewCharacterRequest(
-                nickname = "Nickname",
-                name = "Xeresa",
-                age = 38,
-                mainClass = NewCharacterRequest.AttributeReference("main"),
-                subClass =  NewCharacterRequest.AttributeReference("sub"),
-                race =  NewCharacterRequest.AttributeReference("human"),
-                spells = listOf( NewCharacterRequest.AttributeReference("spell")),
-                equipments = listOf( NewCharacterRequest.AttributeReference("equipment"))
-        )
-    }
-
-    private fun createCharacter(characterDocumentId: String): Character {
-        return Character(
-                id = characterDocumentId,
-                nickname = "Nickname",
-                name = "Xeresa",
-                age = 38,
-                mainClass = Character.Attribute("main", "main", "main"),
-                subClass = Character.Attribute("sub", "sub", "sub"),
-                race = Character.Attribute("human", "human", "human"),
-                spells = listOf(Character.Attribute("spell", "spell", "spell")),
-                equipments = listOf(Character.Attribute("equipment", "equipment", "equipment"))
-        )
-    }
-
     @Test
     fun `create character when required fields are empty throws exception`() {
         val newCharacterRequest = NewCharacterRequest(
@@ -133,5 +106,34 @@ internal class CharacterServiceTest {
             characterService.create(newCharacterRequest)
         }
     }
+
+    private fun createNewCharacterRequest(): NewCharacterRequest {
+        return NewCharacterRequest(
+                nickname = "Nickname",
+                name = "Xeresa",
+                age = 38,
+                mainClass = NewCharacterRequest.AttributeReference("main"),
+                subClass =  NewCharacterRequest.AttributeReference("sub"),
+                race =  NewCharacterRequest.AttributeReference("human"),
+                spells = listOf( NewCharacterRequest.AttributeReference("spell")),
+                equipments = listOf( NewCharacterRequest.AttributeReference("equipment"))
+        )
+    }
+
+    private fun createCharacter(characterDocumentId: String): Character {
+        return Character(
+                id = characterDocumentId,
+                nickname = "Nickname",
+                name = "Xeresa",
+                age = 38,
+                mainClass = Character.Attribute("main", "main", "main"),
+                subClass = Character.Attribute("sub", "sub", "sub"),
+                race = Character.Attribute("human", "human", "human"),
+                spells = listOf(Character.Attribute("spell", "spell", "spell")),
+                equipments = listOf(Character.Attribute("equipment", "equipment", "equipment"))
+        )
+    }
+
+
 
 }
