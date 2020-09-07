@@ -12,7 +12,7 @@ docker-compose build
 
 ## Run
 ```shell script
-docker-compose run
+docker-compose up
 ```
 
 ## Deploy
