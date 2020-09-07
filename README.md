@@ -1,5 +1,5 @@
 ## add-api
-This [api](https://radd-api.herokuapp.com) used to create characters of the [app](https://add-ui.netlify.app/).
+This is the [api](https://radd-api.herokuapp.com) create characters of the [app](https://add-ui.netlify.app/).
 You can check the [openapi](https://radd-api.herokuapp.com/v3/api-docs/) definition for more details. 
 
 ## Requirements
