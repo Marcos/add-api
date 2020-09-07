@@ -1,13 +1,16 @@
 package com.add.addapi.dnd5api.repositories
 
+import com.add.addapi.configurations.logger
 import com.add.addapi.dnd5api.ApiResource
 import com.add.addapi.dnd5api.AttributeType
 import com.add.addapi.dnd5api.DND5_API_URL
 import com.add.addapi.dnd5api.ListAPIResource
 import com.add.addapi.exceptions.InvalidResource
 import com.add.addapi.dnd5api.repositories.ApiCache.apiCache
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Repository
 import org.springframework.web.client.RestTemplate
+import java.util.logging.Level
 
 @Repository
 class ApiRepository(
@@ -43,18 +46,24 @@ class ApiRepository(
     }
 
     private fun fetch(url: String, type: Class<*>, exceptionMessage: String): Any {
+        val response = get(url, type, exceptionMessage)
+        when {
+            response.statusCode.is2xxSuccessful -> return response.body!!
+            else -> throw InvalidResource(exceptionMessage)
+        }
+    }
+
+    private fun get(url: String, type: Class<*>, exceptionMessage: String): ResponseEntity<out Any> {
         try {
-            val response = restTemplate.getForEntity(
+            return restTemplate.getForEntity(
                     url,
                     type
             )
-            when {
-                response.statusCode.is2xxSuccessful -> return response.body!!
-                else -> throw InvalidResource(exceptionMessage)
-            }
         } catch (exception: Exception) {
+            logger().log(Level.SEVERE, "Error getting resource", exception)
             throw InvalidResource(exceptionMessage, exception)
         }
+
     }
 
 }

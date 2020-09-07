@@ -20,8 +20,8 @@ class SpellService(
         val spells = apiRepository.getByIndexes(indexes, SPELL) as List<Spell>
 
         spells.forEach { spell ->
-            val spellClasses = spell.classes.map { it.index }
-            val spellSubClasses = spell.subclasses.map { it.index }
+            val spellClasses = spell.classes?.map { it.index } ?: emptyList()
+            val spellSubClasses = spell.subclasses?.map { it.index } ?: emptyList()
             if (!spellClasses.contains(mainClass.index) && !spellSubClasses.contains(subClass.index)) {
                 throw SpellNotAllowedException()
             }
@@ -33,8 +33,8 @@ class SpellService(
     fun list(mainClassIndex: String, subClassIndex: String): AttributeListResponse {
         val spells = getAllSpells()
         val allowedSpells = spells.filter { spell ->
-            spell.classes.map { it.index }.contains(mainClassIndex) ||
-                    spell.subclasses.map { it.index }.contains(mainClassIndex)
+            spell.classes?.map { it.index }!!.contains(mainClassIndex) ||
+                    spell.subclasses?.map { it.index }!!.contains(mainClassIndex)
         }
         return AttributeListResponse(
                 count = allowedSpells.size,

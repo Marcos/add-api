@@ -70,7 +70,7 @@ class CharacterService(
     private fun getEquipmentIndexes(newCharacterRequest: NewCharacterRequest) =
             newCharacterRequest.equipments?.map { it.id } ?: emptyList()
 
-    private fun joinDesc(it: List<*>) = it.joinToString(separator = DESC_SEPARATOR)
+    private fun joinDesc(it: List<String>?) = it?.joinToString(separator = DESC_SEPARATOR) ?: ""
 
     private fun validate(newCharacterRequest: NewCharacterRequest) {
         if (newCharacterRequest.age <= 0)
