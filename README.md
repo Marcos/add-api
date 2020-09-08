@@ -10,6 +10,8 @@ To build and run locally you will need to have docker and docker-compose install
 docker-compose build
 ```
 
+The application will be running at http:localhost:8080
+
 ## Run
 ```shell script
 docker-compose up
